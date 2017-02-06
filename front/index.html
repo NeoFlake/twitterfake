@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="routingDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title">
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="bootstrap.js"></script>
+    <title></title>
+  </head>
+  <body >
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Twitter</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" ui-sref="home">Accueil<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Notification</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Message</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref="login">Login</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div style="width: 100%; height: 500px; background-color: #059af4;">
+</div>
+  <ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" href="#">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Disabled</a>
+  </li>
+</ul>
+<div ui-view></div>
+<div ng-controller="TodoCtrl">
+  <ul>
+  <li ng-repeat="todo in todos">
+    {{todo.pseudo}} - <em>{{todo.text}}</em>
+  </li>
+</ul>
+</div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+        <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+        <script>
+        var App = angular.module('routingDemoApp',['ui.router']);
+
+App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+                $stateProvider
+                        .state('home', {//State demonstrating Nested views
+                            url: "/",
+                        })
+                        .state('login', {//State demonstrating Nested views
+                            url: "login.html",
+                            templateUrl: "login.html"
+                        })
+            }]);
+            App.controller('TodoCtrl', function($scope, $http) {
+  $http.get('todos.json')
+       .then(function(res){
+          $scope.todos = res.data;
+        });
+});
+        </script>
+  </body>
+</html>
